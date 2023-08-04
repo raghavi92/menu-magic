@@ -1,9 +1,6 @@
-import Image from 'next/image'
-import { type } from 'os';
-import { useEffect, useState } from 'react'
-import { GetStaticProps, NextPage, InferGetStaticPropsType } from 'next';
+import Image from 'next/image';
+import { NextPage } from 'next';
 import Link from 'next/link';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 type Dish = {
   id: string;
@@ -12,16 +9,6 @@ type Dish = {
 
 
 const Home: NextPage = () => {
-  const supabase = createClientComponentClient()
-  if (typeof window !== "undefined") {
-    window.handleSignin = async (googleUser: any) => {
-      const { data, error } = await supabase.auth.signInWithIdToken({
-        provider: 'google',
-        token: googleUser.credential,
-      })
-    }
-  }
-
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 `}
@@ -42,23 +29,6 @@ const Home: NextPage = () => {
       </div>
       <div className="center m-24">
         <Link className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-8 mr-8" href="/explore">Explore</Link>
-        <div id="g_id_onload"
-          data-client_id={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
-          data-context="signin"
-          data-ux_mode="popup"
-          data-callback="handleSignin"
-          data-nonce=""
-          data-auto_prompt="false">
-        </div>
-
-        <div className="g_id_signin"
-          data-type="standard"
-          data-shape="rectangular"
-          data-theme="outline"
-          data-text="signin_with"
-          data-size="large"
-          data-logo_alignment="left">
-        </div>
       </div>
     </main>
   )
